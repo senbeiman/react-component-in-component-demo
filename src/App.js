@@ -16,7 +16,7 @@ const ComponentOutsideApp = () => {
     <div className="childOutside">
       <p>外部定義のComponent</p>
       <div>
-        <img src={"https://picsum.photos/seed/sample/100/100"} />
+        {childOutsideInput && <img src={"https://picsum.photos/seed/sample/100/100"} />}
       </div>
       <textarea onChange={(e) => {setChildOutsideInput(e.target.value)}} value={childOutsideInput}/>
     </div>
@@ -40,7 +40,7 @@ const App = () => {
       <div className="childInside">
         <p>内部定義のComponent</p>
         <div>
-          <img src={"https://picsum.photos/seed/sample/100/100"} />
+          {childInsideInput && <img src={"https://picsum.photos/seed/sample/100/100"} />}
         </div>
         <textarea onChange={(e) => {setChildInsideInput(e.target.value)}} value={childInsideInput}/>
       </div>
@@ -62,8 +62,10 @@ const App = () => {
       }}>
         3秒後に再描画
       </button>
-      <ComponentInsideApp />
-      <ComponentOutsideApp />
+      <div className="flex">
+        <ComponentInsideApp />
+        <ComponentOutsideApp />
+      </div>
     </div>
   );
 };
