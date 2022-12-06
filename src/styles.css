@@ -1,4 +1,25 @@
-.App {
+.parent {
   font-family: sans-serif;
   text-align: center;
+  border-radius: 10px;
+  background-color: #F9F8CD;
+  padding: 10px;
+}
+
+.childInside {
+  background-color: #F5D6CC;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 10px 0px;
+}
+
+.childOutside {
+  background-color: #DAEBC7;
+  border-radius: 10px;
+  padding: 10px;
+  margin: 10px 0px;
+}
+
+textarea {
+  width: 200px;
 }
