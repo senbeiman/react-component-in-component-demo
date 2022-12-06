@@ -6,6 +6,11 @@
   padding: 10px;
 }
 
+.flex {
+  display: flex;
+  justify-content: space-around;
+}
+
 .childInside {
   background-color: #F5D6CC;
   border-radius: 10px;
