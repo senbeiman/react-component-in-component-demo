@@ -1,24 +1,31 @@
 import "./styles.css";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 
 
 const ComponentOutsideApp = () => {
-  const [childOutsideInput, setChildOutsideInput] = useState("useStateの初期値です");
+  const [childOutsideInput, setChildOutsideInput] = useState("");
+  const [pokemonData, setPokemonData] = useState(null);
 
   useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      setChildOutsideInput("useEffectによってマウントの1秒後にセットされた値です")
-    }, 1000);
+    const fetchPokemon = async () => {
+      const response = await fetch("https://pokeapi.co/api/v2/pokemon/4")
+      const data = await response.json();
+      setPokemonData(data);
+      return setTimeout(() => {
+        setChildOutsideInput(data.name);
+      }, 1000);
+    }
+    const timeoutId = fetchPokemon();
     return () => { clearTimeout(timeoutId) }
   }, [])
 
   return (
     <div className="childOutside">
-      <p>外部定義のComponent</p>
+      <p>外部定義のコンポーネント</p>
       <div>
-        {childOutsideInput && <img src={"https://picsum.photos/seed/sample/100/100"} />}
+        <img src={pokemonData?.sprites.other['official-artwork'].front_default} />
       </div>
-      <textarea onChange={(e) => {setChildOutsideInput(e.target.value)}} value={childOutsideInput}/>
+      <input onChange={(e) => {setChildOutsideInput(e.target.value)}} value={childOutsideInput}/>
     </div>
   );
 }
@@ -27,29 +34,36 @@ const App = () => {
   const [parentCount, setParentCount] = useState(0);
 
   const ComponentInsideApp = () => {
-    const [childInsideInput, setChildInsideInput] = useState("useStateの初期値です");
+    const [childInsideInput, setChildInsideInput] = useState("");
+    const [pokemonData, setPokemonData] = useState(null);
 
     useEffect(() => {
-      const timeoutId = setTimeout(() => {
-        setChildInsideInput("useEffectによってマウントの1秒後にセットされた値です")
-      }, 1000);
+      const fetchPokemon = async () => {
+        const response = await fetch("https://pokeapi.co/api/v2/pokemon/25")
+        const data = await response.json();
+        setPokemonData(data);
+        return setTimeout(() => {
+          setChildInsideInput(data.name);
+        }, 1000);
+      }
+      const timeoutId = fetchPokemon();
       return () => { clearTimeout(timeoutId) }
     }, [])
 
     return (
       <div className="childInside">
-        <p>内部定義のComponent</p>
+        <p>内部定義のコンポーネント</p>
         <div>
-          {childInsideInput && <img src={"https://picsum.photos/seed/sample/100/100"} />}
+          <img src={pokemonData?.sprites.other['official-artwork'].front_default} />
         </div>
-        <textarea onChange={(e) => {setChildInsideInput(e.target.value)}} value={childInsideInput}/>
+        <input onChange={(e) => {setChildInsideInput(e.target.value)}} value={childInsideInput}/>
       </div>
     );
   }
 
   return (
     <div className="parent">
-      <p>親Component</p>
+      <p>親コンポーネント</p>
       <button onClick={() => {
         setParentCount(parentCount + 1)
       }}>
