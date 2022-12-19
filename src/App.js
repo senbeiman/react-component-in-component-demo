@@ -3,18 +3,18 @@ import { useEffect, useState } from "react";
 
 const ComponentOutsideApp = () => {
   const [childOutsideInput, setChildOutsideInput] = useState("");
-  const [pokemonData, setPokemonData] = useState(null);
+  const [data, setData] = useState(null);
 
   useEffect(() => {
-    const fetchPokemon = async () => {
-      const response = await fetch("https://pokeapi.co/api/v2/pokemon/4");
+    const fetchData = async () => {
+      const response = await fetch("https://senbeiman.github.io/react-component-in-component-demo/api/outside.json");
       const data = await response.json();
-      setPokemonData(data);
+      setData(data);
       return setTimeout(() => {
         setChildOutsideInput(data.name);
       }, 1000);
     };
-    const timeoutId = fetchPokemon();
+    const timeoutId = fetchData();
     return () => {
       clearTimeout(timeoutId);
     };
@@ -25,8 +25,8 @@ const ComponentOutsideApp = () => {
       <p>外側のコンポーネント</p>
       <div>
         <img
-          src={pokemonData?.sprites.other["official-artwork"].front_default}
-          alt="pikachu"
+          src={data?.imageUrl}
+          alt=""
         />
       </div>
       <input
@@ -44,18 +44,18 @@ const App = () => {
 
   const ComponentInsideApp = () => {
     const [childInsideInput, setChildInsideInput] = useState("");
-    const [pokemonData, setPokemonData] = useState(null);
+    const [data, setData] = useState(null);
 
     useEffect(() => {
-      const fetchPokemon = async () => {
-        const response = await fetch("https://pokeapi.co/api/v2/pokemon/25");
+      const fetchData = async () => {
+        const response = await fetch("https://senbeiman.github.io/react-component-in-component-demo/api/inside.json");
         const data = await response.json();
-        setPokemonData(data);
+        setData(data);
         return setTimeout(() => {
           setChildInsideInput(data.name);
         }, 1000);
       };
-      const timeoutId = fetchPokemon();
+      const timeoutId = fetchData();
       return () => {
         clearTimeout(timeoutId);
       };
@@ -66,8 +66,8 @@ const App = () => {
         <p>内側のコンポーネント</p>
         <div>
           <img
-            src={pokemonData?.sprites.other["official-artwork"].front_default}
-            alt="charmandar"
+            src={data?.imageUrl}
+            alt=""
           />
         </div>
         <input
